@@ -33,7 +33,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 public enum SCLAlertViewStyle {
     case success, error, notice, warning, info, edit, wait, question
     
-    public var defaultColorInt: UInt {
+    var defaultColorInt: UInt {
         switch self {
         case .success:
             return 0x22B573
@@ -178,7 +178,7 @@ open class SCLAlertView: UIViewController {
         // Actions
         var hideWhenBackgroundViewIsTapped: Bool
         
-        public init(kDefaultShadowOpacity: CGFloat = 0.7, kCircleTopPosition: CGFloat = 0.0, kCircleBackgroundTopPosition: CGFloat = 6.0, kCircleHeight: CGFloat = 56.0, kCircleIconHeight: CGFloat = 20.0, kTitleTop:CGFloat = 30.0, kTitleHeight:CGFloat = 25.0,  kWindowWidth: CGFloat = 240.0, kWindowHeight: CGFloat = 178.0, kTextHeight: CGFloat = 90.0, kTextFieldHeight: CGFloat = 45.0, kTextViewdHeight: CGFloat = 90.0, kButtonHeight: CGFloat = 45.0, kTitleFont: UIFont = UIFont.systemFont(ofSize: 20), kTitleMinimumScaleFactor: CGFloat = 1.0, kTextFont: UIFont = UIFont.systemFont(ofSize: 14), kButtonFont: UIFont = UIFont.boldSystemFont(ofSize: 14), showCloseButton: Bool = true, showCircularIcon: Bool = true, shouldAutoDismiss: Bool = true, contentViewCornerRadius: CGFloat = 5.0, fieldCornerRadius: CGFloat = 3.0, buttonCornerRadius: CGFloat = 3.0, hideWhenBackgroundViewIsTapped: Bool = false, circleBackgroundColor: UIColor = UIColor.white, contentViewColor: UIColor = UIColorFromRGB(0xFFFFFF), contentViewBorderColor: UIColor = UIColorFromRGB(0xCCCCCC), titleColor: UIColor = UIColorFromRGB(0x4D4D4D), dynamicAnimatorActive: Bool = false, disableTapGesture: Bool = false, buttonsLayout: SCLAlertButtonLayout = .vertical) {
+        public init(kDefaultShadowOpacity: CGFloat = 0.7, kCircleTopPosition: CGFloat = 0.0, kCircleBackgroundTopPosition: CGFloat = 6.0, kCircleHeight: CGFloat = 56.0, kCircleIconHeight: CGFloat = 20.0, kTitleTop:CGFloat = 30.0, kTitleHeight:CGFloat = 25.0,  kWindowWidth: CGFloat = 240.0, kWindowHeight: CGFloat = 178.0, kTextHeight: CGFloat = 90.0, kTextFieldHeight: CGFloat = 45.0, kTextViewdHeight: CGFloat = 80.0, kButtonHeight: CGFloat = 45.0, kTitleFont: UIFont = UIFont.systemFont(ofSize: 20), kTitleMinimumScaleFactor: CGFloat = 1.0, kTextFont: UIFont = UIFont.systemFont(ofSize: 14), kButtonFont: UIFont = UIFont.boldSystemFont(ofSize: 14), showCloseButton: Bool = true, showCircularIcon: Bool = true, shouldAutoDismiss: Bool = true, contentViewCornerRadius: CGFloat = 5.0, fieldCornerRadius: CGFloat = 3.0, buttonCornerRadius: CGFloat = 3.0, hideWhenBackgroundViewIsTapped: Bool = false, circleBackgroundColor: UIColor = UIColor.white, contentViewColor: UIColor = UIColorFromRGB(0xFFFFFF), contentViewBorderColor: UIColor = UIColorFromRGB(0xCCCCCC), titleColor: UIColor = UIColorFromRGB(0x4D4D4D), dynamicAnimatorActive: Bool = false, disableTapGesture: Bool = false, buttonsLayout: SCLAlertButtonLayout = .vertical) {
             
             self.kDefaultShadowOpacity = kDefaultShadowOpacity
             self.kCircleTopPosition = kCircleTopPosition
@@ -257,7 +257,7 @@ open class SCLAlertView: UIViewController {
     var labelTitle = UILabel()
     var viewText = UITextView()
     var contentView = UIView()
-    var circleBG = UIView(frame: CGRect(x: 0, y: 0, width: kCircleHeightBackground, height: kCircleHeightBackground))
+    var circleBG = UIView(frame:CGRect(x:0, y:0, width:kCircleHeightBackground, height:kCircleHeightBackground))
     var circleView = UIView()
     var circleIconView : UIView?
     var timeout: SCLTimeoutConfiguration?
@@ -397,10 +397,9 @@ open class SCLAlertView: UIViewController {
         }
         
         let windowHeight = consumedHeight + viewTextHeight
-        
         // Set frames
         var x = (sz.width - appearance.kWindowWidth) / 2
-        var y = (sz.height - windowHeight - (appearance.kCircleHeight / 8) - 170) / 2
+        var y = (sz.height - windowHeight - (appearance.kCircleHeight / 8)) / 2
         contentView.frame = CGRect(x:x, y:y, width:appearance.kWindowWidth, height:windowHeight)
         contentView.layer.cornerRadius = appearance.contentViewCornerRadius
         y -= kCircleHeightBackground * 0.6
@@ -408,6 +407,7 @@ open class SCLAlertView: UIViewController {
         circleBG.frame = CGRect(x:x, y:y+appearance.kCircleBackgroundTopPosition, width:kCircleHeightBackground, height:kCircleHeightBackground)
         
         //adjust Title frame based on circularIcon show/hide flag
+//        let titleOffset : CGFloat = appearance.showCircularIcon ? 0.0 : -12.0
         let titleOffset: CGFloat = 0
         labelTitle.frame = labelTitle.frame.offsetBy(dx: 0, dy: titleOffset)
         
@@ -544,7 +544,7 @@ open class SCLAlertView: UIViewController {
         return btn
     }
     
-    @objc func buttonTapped(_ btn:SCLButton) {
+    func buttonTapped(_ btn:SCLButton) {
         if btn.actionType == SCLActionType.closure {
             btn.action()
         } else if btn.actionType == SCLActionType.selector {
@@ -558,7 +558,7 @@ open class SCLAlertView: UIViewController {
     }
     
     
-    @objc func buttonTapDown(_ btn:SCLButton) {
+    func buttonTapDown(_ btn:SCLButton) {
         var hue : CGFloat = 0
         var saturation : CGFloat = 0
         var brightness : CGFloat = 0
@@ -569,7 +569,7 @@ open class SCLAlertView: UIViewController {
         btn.backgroundColor = UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
     }
     
-    @objc func buttonRelease(_ btn:SCLButton) {
+    func buttonRelease(_ btn:SCLButton) {
         btn.backgroundColor = btn.customBackgroundColor ?? viewColor
     }
     
@@ -577,7 +577,7 @@ open class SCLAlertView: UIViewController {
     var tmpCircleViewFrameOrigin: CGPoint?
     var keyboardHasBeenShown:Bool = false
     
-    @objc func keyboardWillShow(_ notification: Notification) {
+    func keyboardWillShow(_ notification: Notification) {
         keyboardHasBeenShown = true
         
         guard let userInfo = (notification as NSNotification).userInfo else {return}
@@ -600,7 +600,7 @@ open class SCLAlertView: UIViewController {
         self.circleBG.frame.origin.y = newBallViewFrameY
     }
     
-    @objc func keyboardWillHide(_ notification: Notification) {
+    func keyboardWillHide(_ notification: Notification) {
         if(keyboardHasBeenShown){//This could happen on the simulator (keyboard will be hidden)
             if(self.tmpContentViewFrameOrigin != nil){
                 self.contentView.frame.origin.y = self.tmpContentViewFrameOrigin!.y
@@ -616,7 +616,7 @@ open class SCLAlertView: UIViewController {
     }
     
     //Dismiss keyboard when tapped outside textfield & close SCLAlertView when hideWhenBackgroundViewIsTapped
-    @objc func tapped(_ gestureRecognizer: UITapGestureRecognizer) {
+    func tapped(_ gestureRecognizer: UITapGestureRecognizer) {
         self.view.endEditing(true)
         
         if let tappedView = gestureRecognizer.view , tappedView.hitTest(gestureRecognizer.location(in: tappedView), with: nil) == baseView && appearance.hideWhenBackgroundViewIsTapped {
@@ -754,7 +754,7 @@ open class SCLAlertView: UIViewController {
             viewText.text = subTitle
             // Adjust text view size, if necessary
             let str = subTitle as NSString
-            let attr = [NSAttributedStringKey.font:viewText.font ?? UIFont()]
+            let attr = [NSFontAttributeName:viewText.font ?? UIFont()]
             let sz = CGSize(width: appearance.kWindowWidth - 24, height:90)
             let r = str.boundingRect(with: sz, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes:attr, context:nil)
             let ht = ceil(r.size.height)
@@ -904,7 +904,7 @@ open class SCLAlertView: UIViewController {
     }
     
     //
-    @objc open func updateShowTimeout() {
+    open func updateShowTimeout() {
         
         guard let timeout = self.timeout else {
             return
@@ -926,7 +926,7 @@ open class SCLAlertView: UIViewController {
     }
     
     // Close SCLAlertView
-    @objc open func hideView() {
+    open func hideView() {
         UIView.animate(withDuration: 0.2, animations: {
             self.view.alpha = 0
             }, completion: { finished in
@@ -954,7 +954,7 @@ open class SCLAlertView: UIViewController {
         })
     }
     
-    @objc open func hideViewTimeout() {
+    open func hideViewTimeout() {
         self.timeout?.action()
         self.hideView()
     }
@@ -981,7 +981,7 @@ open class SCLAlertView: UIViewController {
 }
 
 // Helper function to convert from RGB to UIColor
-public func UIColorFromRGB(_ rgbValue: UInt) -> UIColor {
+func UIColorFromRGB(_ rgbValue: UInt) -> UIColor {
     return UIColor(
         red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
         green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
