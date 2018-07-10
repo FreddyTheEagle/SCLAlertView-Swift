@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Example/SCLAlertViewExample.xcodeproj">
+      location = "group:SCLAlertView.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:SCLAlertView.xcodeproj">
+      location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>
